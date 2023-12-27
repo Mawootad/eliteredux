@@ -1,9 +1,7 @@
 #include "global.h"
 #include "malloc.h"
 #include "battle.h"
-#include "battle_ai_main.h"
 #include "battle_anim.h"
-#include "battle_util.h"
 #include "bg.h"
 #include "contest.h"
 #include "data.h"
@@ -25,7 +23,6 @@
 #include "constants/songs.h"
 #include "constants/weather.h"
 #include "constants/hold_effects.h"
-#include "constants/abilities.h"
 
 extern const struct SpriteTemplate gThoughtBubbleSpriteTemplate;
 
@@ -5531,10 +5528,9 @@ static void AnimRecycle_Step(struct Sprite *sprite)
 void AnimTask_GetWeather(u8 taskId)
 {
     bool32 utilityUmbrellaAffected = GetBattlerHoldEffect(gBattleAnimAttacker, TRUE) == HOLD_EFFECT_UTILITY_UMBRELLA;
-    bool8 hasChloroplast = BATTLER_HAS_ABILITY(gBattleAnimAttacker, ABILITY_CHLOROPLAST) || BATTLER_HAS_ABILITY(gBattleAnimAttacker, ABILITY_BIG_LEAVES);
     
     gBattleAnimArgs[ARG_RET_ID] = ANIM_WEATHER_NONE;
-    if (hasChloroplast || (gWeatherMoveAnim & WEATHER_SUN_ANY && !utilityUmbrellaAffected))
+    if (gWeatherMoveAnim & WEATHER_SUN_ANY && !utilityUmbrellaAffected)
         gBattleAnimArgs[ARG_RET_ID] = ANIM_WEATHER_SUN;
     else if (gWeatherMoveAnim & WEATHER_RAIN_ANY && !utilityUmbrellaAffected)
         gBattleAnimArgs[ARG_RET_ID] = ANIM_WEATHER_RAIN;
